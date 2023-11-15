@@ -42,3 +42,28 @@ PRIMARY KEY (id)
 );
 
 CREATE INDEX  medical_history_id_asc ON invoices(medical_history_id ASC);
+
+/* Create invoice_item table */
+
+CREATE TABLE invoice_item (
+id INT GENERATED ALWAYS AS IDENTITY,
+unit_price NUMERIC (7, 2),
+quantity INT,
+total_price NUMERIC (7, 2),
+invoice_id INT,
+treatment_id INT,
+PRIMARY KEY (id),
+FOREIGN KEY (invoice_id) REFERENCES invoices(id),
+FOREIGN KEY (treatment_id) REFERENCES treatments(id)
+);
+CREATE INDEX invoice_id_asc ON invoice_item(invoice_id ASC);
+CREATE INDEX treatment_id_asc invoice_item(treatment_id ASC);
+CREATE TABLE history_treatment (
+medical_histories_id INT,
+treatments_id INT,
+PRIMARY KEY (medical_histories_id, treatments_id),
+FOREIGN KEY (medical_histories_id) REFERENCES medical_histories(id),
+FOREIGN KEY (treatments_id) REFERENCES treatments(id)
+);
+CREATE INDEX medical_histories_id_asc ON history_treatment (medical_histories_id ASC);
+CREATE INDEX treatment_id_asc ON history_treatment (treatment_id ASC);
